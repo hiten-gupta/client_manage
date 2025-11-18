@@ -1,0 +1,63 @@
+
+<div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md mx-auto mt-10">
+  <h1 class="text-2xl font-bold mb-2">Create a New Client</h1>
+  <p class="text-gray-600 mb-6">Fill in the client's details below.</p>
+  
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+    <div class="space-y-4">
+      
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" formControlName="name" placeholder="Enter Name"
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+               [ngClass]="{ 'border-red-500': name?.invalid && name?.touched }">
+        
+        <div *ngIf="name?.invalid && name?.touched" class="text-red-600 text-sm mt-1">
+          <span *ngIf="name?.errors?.['required']">Name is required.</span>
+          <span *ngIf="name?.errors?.['minlength']">Name must be at least 3 characters.</span>
+        </div>
+      </div>
+      
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="Enter Email"
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+               [ngClass]="{ 'border-red-500': email?.invalid && email?.touched }">
+        
+        <div *ngIf="email?.invalid && email?.touched" class="text-red-600 text-sm mt-1">
+          <span *ngIf="email?.errors?.['required']">Email is required.</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email.</span>
+        </div>
+      </div>
+
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+        <textarea id="address" formControlName="address" placeholder="Enter Address" rows="3"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  [ngClass]="{ 'border-red-500': address?.invalid && address?.touched }"></textarea>
+        
+        <div *ngIf="address?.invalid && address?.touched" class="text-red-600 text-sm mt-1">
+          <span *ngIf="address?.errors?.['required']">Address is required.</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="errorMessage" class="my-4 p-3 bg-red-100 text-red-700 rounded-md">
+      {{ errorMessage }}
+    </div>
+
+    <div class="mt-8">
+      <button type="submit" [disabled]="clientForm.invalid || isLoading"
+              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                     disabled:bg-gray-400 disabled:cursor-not-allowed">
+        <span *ngIf="!isLoading">Create Client</span>
+        <span *ngIf="isLoading">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </form>
+</div>

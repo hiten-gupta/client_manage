@@ -1,0 +1,40 @@
+
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL, 
+    full_name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    role VARCHAR(50) DEFAULT 'user'
+);
+
+CREATE TABLE Clients (
+    client_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL, 
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE,
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE Meetings (
+    meeting_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL, 
+    meeting_topic VARCHAR(255) NOT NULL,
+    start_time DATETIME NOT NULL,
+    num_people INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (client_id) REFERENCES Clients(client_id) ON DELETE CASCADE
+);
+
+INSERT INTO Users (email, password_hash, full_name, role) 
+VALUES ('anna@architects.com', 'some_secure_hash', 'Anna', 'admin');
+
+INSERT INTO Clients (user_id, name, email, address)
+VALUES (1, 'John Doe Construction', 'john@doe.com', '123 Main St, Anytown');
+
+INSERT INTO Clients (user_id, name, email, address)
+VALUES (1, 'Jane Smith Designs', 'jane@smith.com', '456 Oak Ave, Otherville');
